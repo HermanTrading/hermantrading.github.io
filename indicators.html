@@ -1,32 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Indicators - Herman Trading Hub</title>
+  <meta charset="UTF-8">
+  <title>Indicators - Herman Trading Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: monospace;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+  </style>
 </head>
-<body style="background-color: black; color: white; font-family: 'Courier New', monospace;">
+<body>
+  <img src="assets/logo.png" alt="Herman Trading Hub Logo" style="max-width: 200px; margin-top: 30px;">
+  <h1>HERMAN TRADING HUB</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="indicators.html">Indicators</a>
+    <a href="contact.html">Contact</a>
+  </nav>
 
-    <div style="text-align: center; margin-top: 40px;">
-        <img src="assets/logo.png" alt="Herman Trading Hub Logo" style="max-width: 200px;">
-    </div>
-
-    <header style="text-align: center; background-color: #002b00; padding: 20px;">
-        <h1 style="margin: 0; color: white;">HERMAN TRADING HUB</h1>
-        <nav style="margin-top: 10px;">
-            <a href="index.html" style="margin: 0 15px; color: white;">Home</a>
-            <a href="about.html" style="margin: 0 15px; color: white;">About</a>
-            <a href="contact.html" style="margin: 0 15px; color: white;">Contact</a>
-            <a href="indicators.html" style="margin: 0 15px; color: white;">Indicators</a>
-        </nav>
-    </header>
-
-    <main style="text-align: center; margin-top: 60px;">
-        <h2 style="color: white;">My Main Indicators</h2>
-        <ul style="list-style: none; padding: 0; font-size: 1.1em;">
-            <li style="margin-bottom: 10px;">📌 <strong>Herman Macro Edge</strong></li>
-            <li>📌 <strong>Herman Bias Pro</strong></li>
-        </ul>
-    </main>
-
+  <main>
+    <section>
+      <h2>My Indicators</h2>
+      <p><strong>Herman Macro Edge</strong><br>Strategic macro-level tool for high-probability setups.</p>
+      <p><strong>Herman Bias Pro</strong><br>Bias detection and continuation logic built for precision entries.</p>
+    </section>
+  </main>
 </body>
 </html>
