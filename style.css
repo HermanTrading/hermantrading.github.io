@@ -1,22 +1,38 @@
-
 body {
-    background-color: black;
-    color: #00FF00;
-    font-family: 'Courier New', Courier, monospace;
-    margin: 0;
-    padding: 0;
+  background-color: black;
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
+  margin: 0;
+  padding: 0;
 }
+
 header {
-    background: #003300;
-    padding: 10px;
-    text-align: center;
+  background: black;
+  padding: 10px;
+  text-align: center;
 }
+
 nav a {
-    margin: 0 15px;
-    color: #00FF00;
-    text-decoration: none;
+  margin: 0 15px;
+  color: white;
+  text-decoration: none;
 }
+
+nav a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
 main {
-    padding: 20px;
-    text-align: center;
+  padding: 20px;
+  text-align: center;
+}
+
+a {
+  color: white;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: white;
 }
