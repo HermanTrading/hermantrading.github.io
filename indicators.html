@@ -10,6 +10,8 @@
       color: white;
       font-family: monospace;
       text-align: center;
+      margin: 0;
+      padding: 0;
     }
     nav a {
       color: white;
@@ -25,9 +27,22 @@
     a:hover {
       color: #ccc;
     }
+    .container {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+    .box {
+      width: 300px;
+      padding: 20px;
+      border: 1px solid white;
+    }
   </style>
 </head>
 <body>
+
   <img src="assets/logo.png" alt="Herman Trading Hub Logo" style="max-width: 200px; margin-top: 30px;">
   <h1>HERMAN TRADING HUB</h1>
   <nav>
@@ -38,18 +53,18 @@
   </nav>
 
   <main>
-    <section>
-      <h2>My Indicators</h2>
-      <p>
-        <strong>Herman Macro Edge</strong><br>
-        Strategic macro-level tool for high-probability setups.<br>
-        <a href="https://whop.com/herman-macro-edge-premium/" target="_blank">Access via Whop</a>
-      </p>
-      <p>
-        <strong>Herman Bias Pro</strong><br>
-        In development. Coming soon.
-      </p>
+    <section class="container">
+      <div class="box">
+        <h2>Herman Bias Pro</h2>
+        <p>Under construction.<br>Coming soon.</p>
+      </div>
+      <div class="box">
+        <h2>Herman Macro Edge</h2>
+        <p>Strategic macro-level tool for high-probability setups.</p>
+        <p><a href="https://whop.com/herman-macro-edge-premium/" target="_blank">Access via Whop</a></p>
+      </div>
     </section>
   </main>
+
 </body>
 </html>
