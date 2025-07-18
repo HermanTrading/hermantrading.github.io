@@ -1,1 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Indicators - Herman Trading Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: monospace;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    a {
+      color: white;
+    }
+    a:hover {
+      color: #ccc;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+    .box {
+      width: 300px;
+      padding: 20px;
+      border: 1px solid white;
+    }
+  </style>
+</head>
+<body>
 
+  <img src="assets/logo.png" alt="Herman Trading Hub Logo" style="max-width: 200px; margin-top: 30px;">
+  <h1>HERMAN TRADING HUB</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="indicators.html">Indicators</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <main>
+    <section class="container">
+      <div class="box">
+        <h2>FREE Indicators</h2>
+        <p>
+          3785 Days Analyzed: NY Session vs. London & Asia Range Behavior
+          <a href="https://x.com/R_Herman_/status/1945204219507806457</a><br>
+         
+        </p>
+      </div>
+      <div class="box">
+        <h2>PREMIUM Indicators</h2>
+      
+        <p><a href="https://whop.com/herman-macro-edge-premium/" target="_blank">👉 Access via Whop</a></p>
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>
