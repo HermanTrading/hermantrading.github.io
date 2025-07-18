@@ -29,21 +29,16 @@
     }
     .container {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
       margin-top: 40px;
-      gap: 50px;
-      flex-wrap: wrap;
-    }
-    .box {
-      width: 300px;
-      padding: 20px;
-      border: 1px solid white;
+      gap: 30px;
     }
     .tweet-box {
       border: 1px solid white;
       padding: 20px;
-      margin: 40px auto;
       max-width: 700px;
+      width: 90%;
     }
   </style>
 </head>
@@ -62,14 +57,31 @@
 
   <main>
     <section class="container">
+
       <div class="tweet-box">
-        <h2>Statistical Breakdown: NY Session vs. London & Asia         15Y Backtest</h2>
+        <h2>Statistical Breakdown: NY Session vs. London & Asia | 15Y Backtest</h2>
         <p>
           📊 Backtested 12 years of Nasdaq 1-min data (2013–2025):<br><br>
           <strong>New York session takes out London high or low over 70% of the time.</strong><br><br>
           ➡️ <a href="https://x.com/R_Herman_/status/1945204219507806457" target="_blank">@R_Herman_ on X</a>
         </p>
       </div>
+
+      <div class="tweet-box">
+        <h2>London Session Deep Dive</h2>
+        <p>🔧 Work in progress... Data is being processed and will be shared soon.</p>
+      </div>
+
+      <div class="tweet-box">
+        <h2>Asia Session Behavior Analysis</h2>
+        <p>🔧 Work in progress... Stats and visuals are coming soon.</p>
+      </div>
+
+      <div class="tweet-box">
+        <h2>Statistical Range Reversions</h2>
+        <p>🔧 Work in progress... We're building the engine behind this one.</p>
+      </div>
+
     </section>
   </main>
 
