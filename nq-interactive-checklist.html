@@ -1,43 +1,436 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>NQ Interactive Checklist - Herman Trading Hub</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      background-color: black;
-      color: white;
-      font-family: monospace;
-      text-align: center;
+    /* ====== PAGE SHELL (Twoje czarne tło + nawigacja) ====== */
+    body{
+      background:#000; color:#fff; font-family: monospace; text-align:center;
+      margin:0; padding:0;
     }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 10px;
+    nav{ margin-top:20px; }
+    nav a{ color:#fff; text-decoration:none; margin:0 10px; }
+    nav a:hover{ text-decoration:underline; }
+
+    /* ====== APP (scoped, działa offline; dark theme) ====== */
+    #app{
+      --bg:#0b0b0b; --fg:#e5e7eb; --muted:#94a3b8; --soft:#0f1115; --line:#1f2430;
+      --blue:#2563eb; --green:#16a34a; --amber:#d97706; --red:#dc2626;
+      --card:#0b0c10; --pill:#111827; --pillText:#cbd5e1;
+      font:14px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
+      color:var(--fg); text-align:left; margin:28px auto 40px; padding:0 16px; max-width:1100px;
+    }
+    #app h1{font-size:26px; margin:0 0 8px}
+    #app .sub{color:var(--muted); margin-bottom:18px}
+    #app .panel{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; margin:12px 0}
+    #app .row{display:grid; grid-template-columns:repeat(12,1fr); gap:12px}
+    #app .row > .col-6{grid-column:span 6}
+    #app .row > .col-4{grid-column:span 4}
+    #app .row > .col-3{grid-column:span 3}
+    @media (max-width:880px){
+      #app .row{grid-template-columns:1fr}
+      #app .row > [class^="col-"]{grid-column:1}
+    }
+    #app label{display:block; font-weight:700; margin-bottom:6px}
+    #app select{
+      width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:10px;
+      background:#0e1118; color:var(--fg); font-size:14px;
+    }
+    #app .badges{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 8px}
+    #app .badge{
+      background:var(--pill); color:var(--pillText); border-radius:999px;
+      padding:6px 10px; font-size:12px
+    }
+    #app .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+    #app .kpi{
+      border:1px solid var(--line); border-radius:12px; padding:14px; background:var(--soft)
+    }
+    #app .kpi h3{font-size:12px; margin:0 0 6px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em}
+    #app .kpi .v{font-size:18px; font-weight:800}
+    #app .kpi .s{font-size:12px; color:var(--muted)}
+    #app .callout{
+      border:1px dashed var(--line); border-radius:12px; padding:12px; background:#0c0f14; margin-top:12px
+    }
+    #app .bullets{margin:8px 0 0 18px}
+    #app .bullets li{margin:6px 0}
+    #app .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    #app .tile{border:1px solid var(--line); border-radius:12px; padding:12px; background:#0c0f14}
+    #app .tile h4{margin:0 0 8px}
+    #app .pill{font-size:12px; padding:4px 8px; border-radius:999px; display:inline-block; margin-right:6px}
+    #app .ok{background:#07331a; color:#9ff0c2}
+    #app .warn{background:#3b2a04; color:#ffd89a}
+    #app .err{background:#3a0b12; color:#ffb3c1}
+    #app .btn{
+      display:inline-block; padding:12px 14px; background:var(--blue); color:#fff; border:none; border-radius:12px;
+      cursor:pointer; font-weight:800; width:100%; text-align:center
+    }
+    #app .btn.alt{background:#111}
+    #app .footer{color:var(--muted); font-size:12px; margin-top:10px}
+
+    /* Watermark */
+    .wm{
+      position:fixed; right:14px; bottom:12px; font-weight:800; letter-spacing:.06em;
+      opacity:.18; color:#fff; pointer-events:none; font-size:12px; text-transform:uppercase
     }
   </style>
 </head>
 <body>
-  <img src="assets/logo.png" alt="Herman Trading Hub Logo" style="max-width: 200px; margin-top: 30px;">
+
+  <!-- HEADER + NAV (jak na stronie głównej) -->
+  <img src="assets/logo.png" alt="Herman Trading Hub Logo" style="max-width:200px; margin-top:30px;">
   <h1>HERMAN TRADING HUB</h1>
   <nav>
-  <a href="index.html">Home</a>
-  <a href="indicators.html">Indicators</a>
-  <a href="historical.html">Historical Data</a>
-  <a href="nq-interactive-checklist.html">NQ Interactive Checklist</a>
-  <a href="about.html">About</a>
-  <a href="contact.html">Contact</a>
-</nav>
+    <a href="index.html">Home</a>
+    <a href="indicators.html">Indicators</a>
+    <a href="historical.html">Historical Data</a>
+    <a href="nq-interactive-checklist.html">NQ Interactive Checklist</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </nav>
 
+  <!-- ====== INTERACTIVE CHECKLIST (single-file, offline) ====== -->
+  <div id="app">
+    <h1>NQ Euro Sessions — Interactive Checklist</h1>
+    <div class="sub">Offline single-file. Windows: <b>OR 02:00–03:00</b> &amp; <b>London 03:00–05:00</b>. Data: 719 days (Jan’22–Aug’25).</div>
 
-  <main>
-    <section>
-      <p>Coder by choice, trader by instinct.<br>
-         Mechanical precision, custom-built tools.<br>
-         No emotions, no hype—just data, code, and clean execution.<br>
-         I don’t need to predict the market. I just need to be ready when it moves.</p>
-    </section>
-  </main>
+    <!-- CONTROLS -->
+    <div class="panel">
+      <div class="row">
+        <div class="col-4">
+          <label>1) Window</label>
+          <select id="selWindow">
+            <option>Opening Range (02:00–03:00)</option>
+            <option>London (03:00–05:00)</option>
+          </select>
+        </div>
+        <div class="col-4">
+          <label>2) Asia size (20:00–00:00)</label>
+          <select id="selAsia">
+            <option>Below average (&lt;= 70.9 pts)</option>
+            <option>Above average (&gt; 70.9 pts)</option>
+          </select>
+        </div>
+        <div class="col-4">
+          <label>3) What did Pre-London do? (00:00–02:00)</label>
+          <select id="selPL">
+            <option>Swept Low</option>
+            <option>Swept High</option>
+            <option>No Sweep</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row" id="rowORAction" style="margin-top:12px; display:none">
+        <div class="col-4">
+          <label>4) What did OR do? (02:00–03:00)</label>
+          <select id="selOR">
+            <option>Swept High</option>
+            <option>Swept Low</option>
+            <option>Both</option>
+            <option>None</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- BADGES -->
+    <div class="badges" id="badges"></div>
+
+    <!-- KPIs -->
+    <div class="kpis" style="margin:8px 0" id="kpis"></div>
+
+    <!-- DETAILS -->
+    <div class="callout" id="details"></div>
+
+    <!-- LONDON PREVIEW (when window = OR) -->
+    <div class="grid2" id="preview" style="margin-top:12px; display:none">
+      <div class="tile" id="pvFollow">
+        <h4>London if OR <b>Follows</b> PL</h4>
+        <div id="pvFollowRows"></div>
+      </div>
+      <div class="tile" id="pvFlip">
+        <h4>London if OR <b>Flips</b> PL</h4>
+        <div id="pvFlipRows"></div>
+      </div>
+    </div>
+
+    <!-- DOWNLOAD -->
+    <div class="row" style="margin-top:12px">
+      <div class="col-6"><button class="btn" id="btnDL">Download this HTML</button></div>
+      <div class="col-6"><button class="btn alt" id="btnData">Download Data (JSON)</button></div>
+    </div>
+    <div class="footer">Works offline · Dark theme · Brave/Safari/Chrome/Firefox friendly</div>
+  </div>
+
+  <!-- Watermark -->
+  <div class="wm">Herman Trading — Historical Backtest</div>
+
+  <script>
+  /* ========= DATA (condensed; offline) =========
+     Struktura:
+     data.OR[asia][pl] -> {..., preview:{follow:{...}, flip:{...}}}
+     data.London[asia][pl][orSide] -> {...}
+  */
+  const data = {
+    OR: {
+      "Below": {
+        "Swept Low": {
+          bias: "LONG", primaryLabel: "Flip", primaryPct: 51.7, oppositeLabel: "Follow", oppositePct: 30.1,
+          bothPct: 9.6, nonePct: 8.5, sweepAnyPct: 91.5, medPen: "12–14 pts", medTime: "4–9 min",
+          n: 259, confidence: "strong",
+          preview: {
+            follow: { title:"If OR Follows (OR Low)", sweepSameSidePct:64.1, closeAlign:"Bear close ≈ 48.0%",
+                      medPen:"≈ 14–28 pts", medTime:"≈ 5–10 min", expansionPct:91.0, n:78, confidence:"medium" },
+            flip:   { title:"If OR Flips (OR High)", sweepSameSidePct:76.9, closeAlign:"Bull close ≈ 75.7%",
+                      medPen:"+24.8 pts", medTime:"≈ 6 min", expansionPct:92.5, n:134, confidence:"strong" }
+          }
+        },
+        "Swept High": {
+          bias: "SHORT", primaryLabel: "Flip", primaryPct: 49.7, oppositeLabel: "Follow", oppositePct: 36.0,
+          bothPct: 5.8, nonePct: 8.5, sweepAnyPct: 91.5, medPen: "12–14 pts", medTime: "4–9 min",
+          n: 189, confidence: "strong",
+          preview: {
+            follow: { title:"If OR Follows (OR High)", sweepSameSidePct:69.1, closeAlign:"Bull close ≈ 63–76%",
+                      medPen:"≈ 20–30 pts", medTime:"≈ 6–10 min", expansionPct:92.0, n:68, confidence:"medium" },
+            flip:   { title:"If OR Flips (OR Low)",   sweepSameSidePct:81.9, closeAlign:"Bear close ≈ 71.4%",
+                      medPen:"−29.5 pts", medTime:"≈ 6 min", expansionPct:92.6, n:94, confidence:"strong" }
+          }
+        },
+        "No Sweep": {
+          bias: "Neutral → slight LONG", primaryLabel:"OR High", primaryPct:47.6, oppositeLabel:"OR Low", oppositePct:33.3,
+          bothPct:14.3, nonePct:4.8, sweepAnyPct:95.2, medPen:"12–14 pts", medTime:"5–10 min",
+          n:21, confidence:"low",
+          preview: {
+            follow:{ title:"If OR sets High", sweepSameSidePct:90.0, closeAlign:"Bull close ≈ 78%",
+                     medPen:"+29.6 pts", medTime:"≈ 8 min", expansionPct:100.0, n:10, confidence:"low" },
+            flip:{   title:"If OR sets Low",  sweepSameSidePct:57.1, closeAlign:"Bear close ≈ 50–66%",
+                     medPen:"≈ 12–18 pts", medTime:"≈ 5–10 min", expansionPct:86.0, n:7, confidence:"low" }
+          }
+        }
+      },
+      "Above": {
+        "Swept Low": {
+          bias: "LONG", primaryLabel: "Flip", primaryPct: 43.9, oppositeLabel: "Follow", oppositePct: 27.6,
+          bothPct: 12.2, nonePct: 16.3, sweepAnyPct: 83.7,
+          medPen: "20–22 pts (flip) · 14–16 (follow)", medTime: "7–15 min", n: 98, confidence: "strong",
+          preview: {
+            follow:{ title:"If OR Follows (OR Low)", sweepSameSidePct:77.8, closeAlign:"Bear close ≈ 57.1%",
+                     medPen:"≈ 27.5 pts", medTime:"≈ 4–9 min", expansionPct:96.3, n:27, confidence:"medium" },
+            flip:{   title:"If OR Flips (OR High)",  sweepSameSidePct:86.1, closeAlign:"Bull close ≈ 75.7%",
+                     medPen:"+38.3 pts", medTime:"≈ 2 min", expansionPct:81.4, n:43, confidence:"strong" }
+          }
+        },
+        "Swept High": {
+          bias: "SHORT", primaryLabel: "Flip", primaryPct: 48.8, oppositeLabel: "Follow", oppositePct: 32.8,
+          bothPct: 8.8, nonePct: 9.6, sweepAnyPct: 90.4,
+          medPen: "20–22 pts (flip) · 14–16 (follow)", medTime: "6–14 min", n: 125, confidence: "strong",
+          preview: {
+            follow:{ title:"If OR Follows (OR High)", sweepSameSidePct:60.98, closeAlign:"Bull close ≈ 73.3%",
+                     medPen:"+24.9 pts", medTime:"≈ 12 min", expansionPct:95.1, n:41, confidence:"medium" },
+            flip:{   title:"If OR Flips (OR Low)",   sweepSameSidePct:72.1, closeAlign:"Bear close ≈ 63.6%",
+                     medPen:"−38.7 pts", medTime:"≈ 5.5 min", expansionPct:93.4, n:61, confidence:"strong" }
+          }
+        },
+        "No Sweep": {
+          bias: "Neutral → slight SHORT", primaryLabel:"OR Low", primaryPct:45.0, oppositeLabel:"OR High", oppositePct:40.0,
+          bothPct:5.0, nonePct:10.0, sweepAnyPct:90.0, medPen:"16–20 pts", medTime:"6–12 min",
+          n:20, confidence:"low",
+          preview: {
+            follow:{ title:"If OR sets Low", sweepSameSidePct:75.0, closeAlign:"Bear close ≈ 56–70%",
+                     medPen:"≈ 24–32 pts", medTime:"≈ 6–12 min", expansionPct:100.0, n:12, confidence:"low" },
+            flip:{   title:"If OR sets High", sweepSameSidePct:66.7, closeAlign:"Bull close ≈ 60–75%",
+                     medPen:"≈ 20–30 pts", medTime:"≈ 5–10 min", expansionPct:100.0, n:8, confidence:"low" }
+          }
+        }
+      }
+    },
+
+    London: {
+      "Below": {
+        "Swept Low": {
+          "Swept High": { sweepSameSidePct: 76.9, closeAlign:"Bull close ≈ 75.7%", medPen:"+24.8 pts", medTime:"≈ 6 min", expansionPct:92.5, n:134, confidence:"strong" },
+          "Swept Low":  { sweepSameSidePct: 64.1, closeAlign:"Bear close ≈ 48.0%", medPen:"≈ 14–28 pts", medTime:"≈ 5–10 min", expansionPct:91.0, n:78, confidence:"medium" },
+          "Both":       { sweepSameSidePct: 68.0, closeAlign:"Mixed closes",       medPen:"≈ 20–37 pts", medTime:"≈ 3–21 min", expansionPct:88.0, n:25, confidence:"medium" },
+          "None":       { sweepSameSidePct: 100.0, closeAlign:"—",                 medPen:"—", medTime:"—", expansionPct:100.0, n:1, confidence:"low" }
+        },
+        "Swept High": {
+          "Swept Low":  { sweepSameSidePct: 81.9, closeAlign:"Bear close ≈ 71.4%", medPen:"−29.5 pts", medTime:"≈ 6 min", expansionPct:92.6, n:94, confidence:"strong" },
+          "Swept High": { sweepSameSidePct: 69.1, closeAlign:"Bull close ≈ 63–76%", medPen:"≈ 20–30 pts", medTime:"≈ 6–10 min", expansionPct:92.0, n:68, confidence:"medium" },
+          "Both":       { sweepSameSidePct: 63.64, closeAlign:"Mixed closes",       medPen:"≈ 11–27 pts", medTime:"≈ 7–54 min", expansionPct:90.9, n:11, confidence:"low" },
+          "None":       { sweepSameSidePct: 100.0, closeAlign:"—",                 medPen:"—", medTime:"—", expansionPct:100.0, n:2, confidence:"low" }
+        },
+        "No Sweep": {
+          "Swept High": { sweepSameSidePct: 90.0, closeAlign:"Bull close ≈ 78%", medPen:"+29.6 pts", medTime:"≈ 8 min", expansionPct:100.0, n:10, confidence:"low" },
+          "Swept Low":  { sweepSameSidePct: 57.1, closeAlign:"Bear close ≈ 50–66%", medPen:"≈ 12–18 pts", medTime:"≈ 5–10 min", expansionPct:85.7, n:7, confidence:"low" },
+          "Both":       { sweepSameSidePct: 66.7, closeAlign:"Mixed closes",       medPen:"≈ 27 pts", medTime:"≈ 12.5 min", expansionPct:100.0, n:3, confidence:"low" },
+          "None":       { sweepSameSidePct: 100.0, closeAlign:"—",                 medPen:"—", medTime:"—", expansionPct:100.0, n:1, confidence:"low" }
+        }
+      },
+      "Above": {
+        "Swept Low": {
+          "Swept High": { sweepSameSidePct: 86.1, closeAlign:"Bull close ≈ 75.7%", medPen:"+38.3 pts", medTime:"≈ 2 min", expansionPct:81.4, n:43, confidence:"strong" },
+          "Swept Low":  { sweepSameSidePct: 77.8, closeAlign:"Bear close ≈ 57.1%", medPen:"≈ 27.5 pts", medTime:"≈ 4–9 min", expansionPct:96.3, n:27, confidence:"medium" },
+          "Both":       { sweepSameSidePct: 33.33, closeAlign:"Mix",               medPen:"+23.5 / −37.5 pts", medTime:"≈ 5–12 min", expansionPct:91.7, n:12, confidence:"low" },
+          "None":       { sweepSameSidePct: 100.0, closeAlign:"—",                 medPen:"—", medTime:"—", expansionPct:100.0, n:1, confidence:"low" }
+        },
+        "Swept High": {
+          "Swept Low":  { sweepSameSidePct: 72.1, closeAlign:"Bear close ≈ 63.6%", medPen:"−38.7 pts", medTime:"≈ 5.5 min", expansionPct:93.4, n:61, confidence:"strong" },
+          "Swept High": { sweepSameSidePct: 61.0, closeAlign:"Bull close ≈ 73.3%", medPen:"+24.9 pts", medTime:"≈ 12 min", expansionPct:95.1, n:41, confidence:"medium" },
+          "Both":       { sweepSameSidePct: 36.36, closeAlign:"Mix",               medPen:"+11.0 / −26.9 pts", medTime:"≈ 7–53.5 min", expansionPct:90.9, n:11, confidence:"low" },
+          "None":       { sweepSameSidePct: 100.0, closeAlign:"—",                 medPen:"—", medTime:"—", expansionPct:100.0, n:1, confidence:"low" }
+        },
+        "No Sweep": {
+          "Swept Low":  { sweepSameSidePct: 75.0, closeAlign:"Bear close ≈ 56–70%", medPen:"≈ 24–32 pts", medTime:"≈ 6–12 min", expansionPct:100.0, n:12, confidence:"low" },
+          "Swept High": { sweepSameSidePct: 66.7, closeAlign:"Bull close ≈ 60–75%", medPen:"≈ 20–30 pts", medTime:"≈ 5–10 min", expansionPct:100.0, n:8, confidence:"low" },
+          "Both":       { sweepSameSidePct: 50.0, closeAlign:"Mix",                medPen:"≈ 22–33 pts", medTime:"≈ 7–20 min", expansionPct:100.0, n:2, confidence:"low" },
+          "None":       { sweepSameSidePct: 100.0, closeAlign:"—",                 medPen:"—", medTime:"—", expansionPct:100.0, n:1, confidence:"low" }
+        }
+      }
+    }
+  };
+
+  /* ========= RENDER ========= */
+  const $ = sel => document.querySelector(sel);
+  const selWindow = $('#selWindow'), selAsia = $('#selAsia'), selPL = $('#selPL'), selOR = $('#selOR');
+  const rowORAction = $('#rowORAction');
+  const badges = $('#badges'), kpis = $('#kpis'), details = $('#details'), preview = $('#preview');
+  const pvFollowRows = $('#pvFollowRows'), pvFlipRows = $('#pvFlipRows');
+
+  function txtAsia(){ return selAsia.value.includes('Above') ? 'Above' : 'Below'; }
+  function txtWindow(){ return selWindow.value.startsWith('Opening') ? 'OR' : 'London'; }
+  function txtPL(){ return selPL.value; }
+  function txtOR(){ return selOR.value; }
+
+  function badge(label){
+    const b = document.createElement('span');
+    b.className = 'badge'; b.textContent = label; return b;
+  }
+  function pill(text, cls='ok'){
+    const p = document.createElement('span');
+    p.className = 'pill ' + cls; p.textContent = text; return p;
+  }
+  function kpi(title, value, sub=''){
+    const d = document.createElement('div');
+    d.className = 'kpi';
+    d.innerHTML = `<h3>${title}</h3><div class="v">${value}</div>${sub?`<div class="s">${sub}</div>`:''}`;
+    return d;
+  }
+  function confidenceBadge(level, n){
+    const w = document.createElement('span'); w.className='badge'; w.textContent=`Confidence: ${level} (n=${n})`;
+    w.style.background = level==='strong'?'#063314':level==='medium'?'#402a00':'#3c0b10';
+    w.style.color = '#e6f7ee'; return w;
+  }
+
+  function render(){
+    const W = txtWindow(), A = txtAsia(), P = txtPL();
+    rowORAction.style.display = (W==='London') ? 'block' : 'none';
+    preview.style.display = (W==='OR') ? 'grid' : 'none';
+
+    badges.innerHTML = '';
+    badges.append(badge(W==='OR' ? 'OR (02:00–03:00)' : 'London (03:00–05:00)'));
+    badges.append(badge('Asia: '+(A==='Above'?'Above > 70.9':'Below ≤ 70.9')));
+    badges.append(badge('PL: '+P));
+    if(W==='London') badges.append(badge('OR: '+txtOR()));
+
+    kpis.innerHTML = '';
+    details.innerHTML = '';
+
+    if(W==='OR'){
+      const rec = data.OR[A][P];
+      if(!rec){ details.textContent='No data for this branch.'; return; }
+
+      badges.append(confidenceBadge(rec.confidence, rec.n));
+
+      kpis.append(kpi('Bias', rec.bias));
+      kpis.append(kpi('Primary %', `${rec.primaryLabel} ${rec.primaryPct.toFixed(1)}%`));
+      kpis.append(kpi('Opposite %', `${rec.oppositeLabel} ${rec.oppositePct.toFixed(1)}%`));
+
+      const riskIdx = (rec.bothPct + 0.5*rec.oppositePct).toFixed(1);
+      kpis.append(kpi('Two-sided risk', `${riskIdx}%`, '≈ Both% + 0.5×Opposite%'));
+
+      kpis.append(kpi('Median penetration', rec.medPen));
+      kpis.append(kpi('Median time', rec.medTime));
+      kpis.append(kpi('Retest (London)', '≈ 98–100%', 'OR edge retests are common'));
+      kpis.append(kpi('Sweep any side', `${rec.sweepAnyPct.toFixed(1)}%`, `Both ${rec.bothPct}% · None ${rec.nonePct}%`));
+
+      const ul = document.createElement('ul'); ul.className = 'bullets';
+      ul.innerHTML = `
+        <li><b>Interpretation:</b> Primary = higher-probability OR outcome; Opposite = lower-probability.</li>
+        <li><b>Trade plan:</b> Trade first breach + clean retest of the OR edge in the primary direction. Targets by medians.</li>
+        <li><b>Note:</b> If Both prints or risk index is elevated, scale quicker.</li>`;
+      details.appendChild(ul);
+
+      pvFollowRows.innerHTML = pvFlipRows.innerHTML = '';
+      $('#pvFollow').querySelector('h4').textContent = rec.preview.follow.title;
+      $('#pvFlip').querySelector('h4').textContent   = rec.preview.flip.title;
+
+      const f = rec.preview.follow, g = rec.preview.flip;
+      function fill(div, o){
+        div.appendChild(pill(`Sweep same-side ${o.sweepSameSidePct}%`, 'ok'));
+        div.appendChild(document.createElement('br'));
+        const box = document.createElement('div'); box.style.marginTop='8px';
+        box.innerHTML = `
+          <div>• ${o.closeAlign}</div>
+          <div>• Median penetration: <b>${o.medPen}</b></div>
+          <div>• Median time: <b>${o.medTime}</b></div>
+          <div>• Expansion: <b>${o.expansionPct}%</b></div>`;
+        div.appendChild(box);
+        const c = document.createElement('div'); c.style.marginTop='6px';
+        c.appendChild(pill(`Confidence: ${o.confidence} (n=${o.n})`,
+                     o.confidence==='strong'?'ok':o.confidence==='medium'?'warn':'err'));
+        div.appendChild(c);
+      }
+      fill(pvFollowRows, f); fill(pvFlipRows, g);
+    } else {
+      const O = txtOR();
+      const rec = (data.London[A] && data.London[A][P] && data.London[A][P][O]) ? data.London[A][P][O] : null;
+      if(!rec){ details.textContent='Select OR action to see London stats.'; return; }
+
+      badges.append(confidenceBadge(rec.confidence, rec.n));
+
+      const bias = (O==='Swept High') ? 'LONG' : (O==='Swept Low') ? 'SHORT' : 'Two-way';
+      kpis.append(kpi('Bias', bias));
+      kpis.append(kpi('Sweep same-side', `${rec.sweepSameSidePct}%`));
+      kpis.append(kpi('Median penetration', rec.medPen));
+      kpis.append(kpi('Median time', rec.medTime));
+      kpis.append(kpi('Expansion', `${rec.expansionPct}%`));
+
+      const ul = document.createElement('ul'); ul.className='bullets';
+      ul.innerHTML = `
+        <li><b>Setup:</b> First London breach of the OR edge + <i>retest</i> → enter in same side.</li>
+        <li><b>Targets:</b> TP1 ≈ ½ median, TP2 ≈ 1× median, runner toward OR-range multiple.</li>
+        <li><b>Closes:</b> ${rec.closeAlign}</li>`;
+      details.appendChild(ul);
+
+      document.getElementById('preview').style.display='none';
+    }
+  }
+
+  selWindow.addEventListener('change', render);
+  selAsia.addEventListener('change', render);
+  selPL.addEventListener('change', render);
+  selOR.addEventListener('change', render);
+  render();
+
+  /* ========= DOWNLOADS ========= */
+  function download(filename, content, type='text/html'){
+    const blob = new Blob([content], {type});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a); a.click();
+    setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 0);
+  }
+  document.getElementById('btnDL').addEventListener('click', ()=>{
+    const html = '<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+    download('nq_euro_sessions_checklist.html', html, 'text/html');
+  });
+  document.getElementById('btnData').addEventListener('click', ()=>{
+    download('nq_euro_sessions_data.json', JSON.stringify(data, null, 2), 'application/json');
+  });
+  </script>
 </body>
 </html>
