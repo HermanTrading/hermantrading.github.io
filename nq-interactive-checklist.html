@@ -295,7 +295,7 @@
 
       badges.append(confidenceBadge(rec.confidence,rec.n));
 
-      // --- WIĘCEJ KPI (pełny pakiet) ---
+      // Pełny pakiet KPI
       kpis.append(kpi('Bias',rec.bias));
       kpis.append(kpi('Primary %',`${rec.primaryLabel} ${rec.primaryPct.toFixed(1)}%`));
       kpis.append(kpi('Opposite %',`${rec.oppositeLabel} ${rec.oppositePct.toFixed(1)}%`));
@@ -310,16 +310,17 @@
       kpis.append(kpi('Samples (n)',rec.n));
       kpis.append(kpi('Confidence',rec.confidence.toUpperCase()));
 
+      // Opis
       const ul=document.createElement('ul');ul.className='bullets';
       ul.innerHTML=`
         <li><b>Plan:</b> First breach + clean retest of the OR edge in the primary direction.</li>
-        <li><b>Targets:</b> medians as reference; scale quicker if <i>Both</i> or high risk index.</li>`;
+        <li><b>Targets:</b> Use medians; scale quicker if <i>Both</i> or high risk index.</li>`;
       details.appendChild(ul);
 
       // Preview tiles
       pvFollowRows.innerHTML=pvFlipRows.innerHTML='';
-      $('#pvFollow h4').textContent=rec.preview.follow.title;
-      $('#pvFlip h4').textContent=rec.preview.flip.title;
+      document.querySelector('#pvFollow h4').textContent=rec.preview.follow.title;
+      document.querySelector('#pvFlip h4').textContent=rec.preview.flip.title;
 
       const f=rec.preview.follow, g=rec.preview.flip;
       function fill(div,o){
@@ -347,7 +348,6 @@
 
       badges.append(confidenceBadge(rec.confidence,rec.n));
 
-      // London – rozszerzony pakiet KPI
       const bias=(O==='Swept High')?'LONG':(O==='Swept Low')?'SHORT':'Two-way';
       kpis.append(kpi('Bias',bias));
       kpis.append(kpi('Sweep same-side',`${rec.sweepSameSidePct}%`));
@@ -367,12 +367,20 @@
     }
   }
 
-  // Start zawsze w OR + domyślne gałęzie
+  // START + LISTENERY (kluczowe, żeby UI reagował na wybory)
   window.addEventListener('DOMContentLoaded',()=>{
+    // domyślne wartości (pełny widok OR)
     selWindow.selectedIndex=0; // OR
     selAsia.selectedIndex=0;   // Below
     selPL.selectedIndex=0;     // Swept Low
-    selOR.selectedIndex=0;     // (na London)
+    selOR.selectedIndex=0;     // (dla London)
+
+    // >>> Przywrócone nasłuchy zmian <<<
+    selWindow.addEventListener('change', render);
+    selAsia.addEventListener('change', render);
+    selPL.addEventListener('change', render);
+    selOR.addEventListener('change', render);
+
     render();
   });
   </script>
