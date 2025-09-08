@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About - Herman Trading Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: monospace;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+  <img src="assets/logo.png" alt="Herman Trading Hub Logo" style="max-width: 200px; margin-top: 30px;">
+  <h1>HERMAN TRADING HUB</h1>
+ <nav>
+  <a href="index.html">Home</a>
+  <a href="indicators.html">Indicators</a>
+  <a href="historical.html">Historical Data</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+
+  <main>
+    <section>
+      <p>Coder by choice, trader by instinct.<br>
+         Mechanical precision, custom-built tools.<br>
+         No emotions, no hype—just data, code, and clean execution.<br>
+         I don’t need to predict the market. I just need to be ready when it moves.</p>
+    </section>
+  </main>
+</body>
+</html>
