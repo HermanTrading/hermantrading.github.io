@@ -6,79 +6,59 @@
   <title>NQ Interactive Checklist - Herman Trading Hub</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* ====== PAGE SHELL ====== */
-    body{
-      background:#000; color:#fff; font-family: monospace; text-align:center;
-      margin:0; padding:0;
-    }
-    nav{ margin-top:20px; }
-    nav a{ color:#fff; text-decoration:none; margin:0 10px; }
-    nav a:hover{ text-decoration:underline; }
+    body{background:#000;color:#fff;font-family:monospace;text-align:center;margin:0;padding:0}
+    nav{margin-top:20px}
+    nav a{color:#fff;text-decoration:none;margin:0 10px}
+    nav a:hover{text-decoration:underline}
 
-    /* ====== APP ====== */
+    /* App */
     #app{
-      --fg:#e5e7eb; --muted:#94a3b8; --soft:#0f1115; --line:#1f2430;
-      --card:#0b0c10; --pill:#111827; --pillText:#cbd5e1;
+      --fg:#e5e7eb;--muted:#94a3b8;--soft:#0f1115;--line:#1f2430;
+      --card:#0b0c10;--pill:#111827;--pillText:#cbd5e1;
       font:14px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
-      color:var(--fg); text-align:left; margin:28px auto 40px; padding:0 16px; max-width:1100px;
+      color:var(--fg);text-align:left;margin:28px auto 40px;max-width:1100px;padding:0 16px
     }
-    #app h1{font-size:26px; margin:0 0 8px}
-    #app .sub{color:var(--muted); margin-bottom:18px}
-    #app .panel{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; margin:12px 0}
-    #app .row{display:grid; grid-template-columns:repeat(12,1fr); gap:12px}
+    #app h1{font-size:26px;margin:0 0 8px}
+    #app .sub{color:var(--muted);margin-bottom:18px}
+    #app .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:12px 0}
+    #app .row{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
     #app .row > .col-6{grid-column:span 6}
     #app .row > .col-4{grid-column:span 4}
     #app .row > .col-3{grid-column:span 3}
-    @media (max-width:880px){
-      #app .row{grid-template-columns:1fr}
-      #app .row > [class^="col-"]{grid-column:1}
-    }
-    #app label{display:block; font-weight:700; margin-bottom:6px}
-    #app select{
-      width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:10px;
-      background:#0e1118; color:var(--fg); font-size:14px;
-    }
-    #app .badges{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 8px}
-    #app .badge{
-      background:var(--pill); color:var(--pillText); border-radius:999px;
-      padding:6px 10px; font-size:12px
-    }
-    #app .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
-    #app .kpi{
-      border:1px solid var(--line); border-radius:12px; padding:14px; background:var(--soft)
-    }
-    #app .kpi h3{font-size:12px; margin:0 0 6px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em}
-    #app .kpi .v{font-size:18px; font-weight:800}
-    #app .kpi .s{font-size:12px; color:var(--muted)}
-    #app .callout{
-      border:1px dashed var(--line); border-radius:12px; padding:12px; background:#0c0f14; margin-top:12px
-    }
+    @media (max-width:880px){#app .row{grid-template-columns:1fr}#app .row > [class^="col-"]{grid-column:1}}
+    #app label{display:block;font-weight:700;margin-bottom:6px}
+    #app select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#0e1118;color:var(--fg);font-size:14px}
+    #app .badges{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 8px}
+    #app .badge{background:var(--pill);color:var(--pillText);border-radius:999px;padding:6px 10px;font-size:12px}
+    #app .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    #app .kpi{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--soft)}
+    #app .kpi h3{font-size:12px;margin:0 0 6px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+    #app .kpi .v{font-size:18px;font-weight:800}
+    #app .kpi .s{font-size:12px;color:var(--muted)}
+    #app .callout{border:1px dashed var(--line);border-radius:12px;padding:12px;background:#0c0f14;margin-top:12px}
     #app .bullets{margin:8px 0 0 18px}
     #app .bullets li{margin:6px 0}
-    #app .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
-    #app .tile{border:1px solid var(--line); border-radius:12px; padding:12px; background:#0c0f14}
+    #app .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    #app .tile{border:1px solid var(--line);border-radius:12px;padding:12px;background:#0c0f14}
     #app .tile h4{margin:0 0 8px}
-    #app .pill{font-size:12px; padding:4px 8px; border-radius:999px; display:inline-block; margin-right:6px}
-    #app .ok{background:#07331a; color:#9ff0c2}
-    #app .warn{background:#3b2a04; color:#ffd89a}
-    #app .err{background:#3a0b12; color:#ffb3c1}
+    #app .pill{font-size:12px;padding:4px 8px;border-radius:999px;display:inline-block;margin-right:6px}
+    #app .ok{background:#07331a;color:#9ff0c2}
+    #app .warn{background:#3b2a04;color:#ffd89a}
+    #app .err{background:#3a0b12;color:#ffb3c1}
 
-    /* Watermark – disclaimer */
+    /* Watermark (disclaimer) */
     .wm{
-      position:fixed; right:16px; bottom:14px;
-      font-weight:900; letter-spacing:.08em; text-transform:uppercase;
-      opacity:.45; color:#fff; font-size:16px;
-      padding:6px 10px; border:1px solid rgba(255,255,255,.28); border-radius:10px;
-      background:linear-gradient(90deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
-      box-shadow:0 2px 10px rgba(0,0,0,.35);
-      pointer-events:none; user-select:none; z-index:10;
+      position:fixed;right:16px;bottom:14px;z-index:10;
+      font-weight:900;letter-spacing:.08em;text-transform:uppercase;opacity:.45;color:#fff;font-size:16px;
+      padding:6px 10px;border:1px solid rgba(255,255,255,.28);border-radius:10px;
+      background:linear-gradient(90deg,rgba(255,255,255,.10),rgba(255,255,255,.04));
+      box-shadow:0 2px 10px rgba(0,0,0,.35);pointer-events:none;user-select:none
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER + NAV -->
-  <img src="assets/logo.png" alt="Herman Trading Hub Logo" style="max-width:200px; margin-top:30px;">
+  <img src="assets/logo.png" alt="Herman Trading Hub Logo" style="max-width:200px;margin-top:30px">
   <h1>HERMAN TRADING HUB</h1>
   <nav>
     <a href="index.html">Home</a>
@@ -89,12 +69,11 @@
     <a href="contact.html">Contact</a>
   </nav>
 
-  <!-- ====== INTERACTIVE CHECKLIST ====== -->
   <div id="app">
     <h1>NQ Euro Sessions — Interactive Checklist</h1>
     <div class="sub">Windows: <b>OR 02:00–03:00</b> &amp; <b>London 03:00–05:00</b>. Data: 719 days (Jan’22–Aug’25).</div>
 
-    <!-- CONTROLS -->
+    <!-- Controls -->
     <div class="panel">
       <div class="row">
         <div class="col-4">
@@ -121,7 +100,7 @@
         </div>
       </div>
 
-      <div class="row" id="rowORAction" style="margin-top:12px; display:none">
+      <div class="row" id="rowORAction" style="margin-top:12px;display:none">
         <div class="col-4">
           <label>4) What did OR do? (02:00–03:00)</label>
           <select id="selOR">
@@ -134,17 +113,17 @@
       </div>
     </div>
 
-    <!-- BADGES -->
+    <!-- Badges -->
     <div class="badges" id="badges"></div>
 
     <!-- KPIs -->
-    <div class="kpis" style="margin:8px 0" id="kpis"></div>
+    <div class="kpis" id="kpis" style="margin:8px 0"></div>
 
-    <!-- DETAILS -->
+    <!-- Details -->
     <div class="callout" id="details"></div>
 
-    <!-- LONDON PREVIEW (when window = OR) -->
-    <div class="grid2" id="preview" style="margin-top:12px; display:none">
+    <!-- Preview -->
+    <div class="grid2" id="preview" style="margin-top:12px;display:none">
       <div class="tile" id="pvFollow">
         <h4>London if OR <b>Follows</b> PL</h4>
         <div id="pvFollowRows"></div>
@@ -156,11 +135,10 @@
     </div>
   </div>
 
-  <!-- Watermark -->
   <div class="wm">Disclaimer: This is not financial advice.</div>
 
   <script>
-  /* ========= DATA ========= */
+  /* ======== DATA ======== */
   const data = {
     OR: {
       "Below": {
@@ -279,133 +257,122 @@
     }
   };
 
-  /* ========= RENDER ========= */
-  const $ = sel => document.querySelector(sel);
-  const selWindow = $('#selWindow'), selAsia = $('#selAsia'), selPL = $('#selPL'), selOR = $('#selOR');
-  const rowORAction = $('#rowORAction');
-  const badges = $('#badges'), kpis = $('#kpis'), details = $('#details'), preview = $('#preview');
-  const pvFollowRows = $('#pvFollowRows'), pvFlipRows = $('#pvFlipRows');
+  /* ======== RENDER ======== */
+  const $=s=>document.querySelector(s);
+  const selWindow=$('#selWindow'), selAsia=$('#selAsia'), selPL=$('#selPL'), selOR=$('#selOR');
+  const rowORAction=$('#rowORAction');
+  const badges=$('#badges'), kpis=$('#kpis'), details=$('#details'), preview=$('#preview');
+  const pvFollowRows=$('#pvFollowRows'), pvFlipRows=$('#pvFlipRows');
 
-  function txtAsia(){ return selAsia.value.includes('Above') ? 'Above' : 'Below'; }
-  function txtWindow(){ return selWindow.value.startsWith('Opening') ? 'OR' : 'London'; }
-  function txtPL(){ return selPL.value; }
-  function txtOR(){ return selOR.value; }
+  const txtAsia=()=>selAsia.value.includes('Above')?'Above':'Below';
+  const txtWindow=()=>selWindow.value.startsWith('Opening')?'OR':'London';
+  const txtPL=()=>selPL.value;
+  const txtOR=()=>selOR.value;
 
-  function badge(label){
-    const b = document.createElement('span');
-    b.className = 'badge'; b.textContent = label; return b;
-  }
-  function pill(text, cls='ok'){
-    const p = document.createElement('span');
-    p.className = 'pill ' + cls; p.textContent = text; return p;
-  }
-  function kpi(title, value, sub=''){
-    const d = document.createElement('div');
-    d.className = 'kpi';
-    d.innerHTML = `<h3>${title}</h3><div class="v">${value}</div>${sub?`<div class="s">${sub}</div>`:''}`;
-    return d;
-  }
-  function confidenceBadge(level, n){
-    const w = document.createElement('span'); w.className='badge'; w.textContent=`Confidence: ${level} (n=${n})`;
-    w.style.background = level==='strong'?'#063314':level==='medium'?'#402a00':'#3c0b10';
-    w.style.color = '#e6f7ee'; return w;
+  const badge=t=>{const b=document.createElement('span');b.className='badge';b.textContent=t;return b;}
+  const pill=(t,cls='ok')=>{const p=document.createElement('span');p.className='pill '+cls;p.textContent=t;return p;}
+  const kpi=(t,v,s='')=>{const d=document.createElement('div');d.className='kpi';d.innerHTML=`<h3>${t}</h3><div class="v">${v}</div>${s?`<div class="s">${s}</div>`:''}`;return d;}
+  function confidenceBadge(level,n){
+    const w=document.createElement('span');w.className='badge';w.textContent=`Confidence: ${level} (n=${n})`;
+    w.style.background=level==='strong'?'#063314':level==='medium'?'#402a00':'#3c0b10';w.style.color='#e6f7ee';return w;
   }
 
   function render(){
-    const W = txtWindow(), A = txtAsia(), P = txtPL();
+    const W=txtWindow(), A=txtAsia(), P=txtPL();
+    rowORAction.style.display=(W==='London')?'block':'none';
+    preview.style.display=(W==='OR')?'grid':'none';
 
-    // Pokaż selector OR tylko dla London
-    rowORAction.style.display = (W==='London') ? 'block' : 'none';
-    // Zawsze pokaż podgląd dwóch kafelków przy OR
-    preview.style.display = (W==='OR') ? 'grid' : 'none';
-
-    badges.innerHTML = '';
-    badges.append(badge(W==='OR' ? 'OR (02:00–03:00)' : 'London (03:00–05:00)'));
+    badges.innerHTML='';
+    badges.append(badge(W==='OR'?'OR (02:00–03:00)':'London (03:00–05:00)'));
     badges.append(badge('Asia: '+(A==='Above'?'Above > 70.9':'Below ≤ 70.9')));
     badges.append(badge('PL: '+P));
     if(W==='London') badges.append(badge('OR: '+txtOR()));
 
-    kpis.innerHTML = '';
-    details.innerHTML = '';
+    kpis.innerHTML=''; details.innerHTML='';
 
     if(W==='OR'){
-      const rec = data.OR[A][P];
-      if(!rec){ details.textContent='No data for this branch.'; return; }
+      const rec=data.OR[A][P]; if(!rec){details.textContent='No data for this branch.';return;}
 
-      badges.append(confidenceBadge(rec.confidence, rec.n));
+      badges.append(confidenceBadge(rec.confidence,rec.n));
 
-      kpis.append(kpi('Bias', rec.bias));
-      kpis.append(kpi('Primary %', `${rec.primaryLabel} ${rec.primaryPct.toFixed(1)}%`));
-      kpis.append(kpi('Opposite %', `${rec.oppositeLabel} ${rec.oppositePct.toFixed(1)}%`));
-      const riskIdx = (rec.bothPct + 0.5*rec.oppositePct).toFixed(1);
-      kpis.append(kpi('Two-sided risk', `${riskIdx}%`, '≈ Both% + 0.5×Opposite%'));
-      kpis.append(kpi('Median penetration', rec.medPen));
-      kpis.append(kpi('Median time', rec.medTime));
-      kpis.append(kpi('Retest (London)', '≈ 98–100%', 'OR edge retests are common'));
-      kpis.append(kpi('Sweep any side', `${rec.sweepAnyPct.toFixed(1)}%`, `Both ${rec.bothPct}% · None ${rec.nonePct}%`));
+      // --- WIĘCEJ KPI (pełny pakiet) ---
+      kpis.append(kpi('Bias',rec.bias));
+      kpis.append(kpi('Primary %',`${rec.primaryLabel} ${rec.primaryPct.toFixed(1)}%`));
+      kpis.append(kpi('Opposite %',`${rec.oppositeLabel} ${rec.oppositePct.toFixed(1)}%`));
+      kpis.append(kpi('Spread',`${(rec.primaryPct-rec.oppositePct).toFixed(1)}%`,'Primary − Opposite'));
+      kpis.append(kpi('Both %',`${rec.bothPct.toFixed(1)}%`));
+      kpis.append(kpi('None %',`${rec.nonePct.toFixed(1)}%`));
+      kpis.append(kpi('Sweep any side',`${rec.sweepAnyPct.toFixed(1)}%`));
+      const riskIdx=(rec.bothPct+0.5*rec.oppositePct).toFixed(1);
+      kpis.append(kpi('Two-sided risk',`${riskIdx}%`,'Both% + 0.5×Opp%'));
+      kpis.append(kpi('Median penetration',rec.medPen));
+      kpis.append(kpi('Median time',rec.medTime));
+      kpis.append(kpi('Samples (n)',rec.n));
+      kpis.append(kpi('Confidence',rec.confidence.toUpperCase()));
 
-      const ul = document.createElement('ul'); ul.className = 'bullets';
-      ul.innerHTML = `
-        <li><b>Interpretation:</b> Primary = higher-probability OR outcome; Opposite = lower-probability.</li>
-        <li><b>Trade plan:</b> First breach + clean retest of the OR edge in the primary direction. Targets by medians.</li>
-        <li><b>Note:</b> If Both prints or risk index is elevated, scale quicker.</li>`;
+      const ul=document.createElement('ul');ul.className='bullets';
+      ul.innerHTML=`
+        <li><b>Plan:</b> First breach + clean retest of the OR edge in the primary direction.</li>
+        <li><b>Targets:</b> medians as reference; scale quicker if <i>Both</i> or high risk index.</li>`;
       details.appendChild(ul);
 
-      // PREVIEW TILES
-      pvFollowRows.innerHTML = pvFlipRows.innerHTML = '';
-      document.querySelector('#pvFollow h4').textContent = rec.preview.follow.title;
-      document.querySelector('#pvFlip h4').textContent   = rec.preview.flip.title;
+      // Preview tiles
+      pvFollowRows.innerHTML=pvFlipRows.innerHTML='';
+      $('#pvFollow h4').textContent=rec.preview.follow.title;
+      $('#pvFlip h4').textContent=rec.preview.flip.title;
 
-      const f = rec.preview.follow, g = rec.preview.flip;
-      function fill(div, o){
-        div.appendChild(pill(`Sweep same-side ${o.sweepSameSidePct}%`, 'ok'));
+      const f=rec.preview.follow, g=rec.preview.flip;
+      function fill(div,o){
+        div.appendChild(pill(`Sweep same-side ${o.sweepSameSidePct}%`,'ok'));
         div.appendChild(document.createElement('br'));
-        const box = document.createElement('div'); box.style.marginTop='8px';
-        box.innerHTML = `
+        const box=document.createElement('div');box.style.marginTop='8px';
+        box.innerHTML=`
           <div>• ${o.closeAlign}</div>
           <div>• Median penetration: <b>${o.medPen}</b></div>
           <div>• Median time: <b>${o.medTime}</b></div>
-          <div>• Expansion: <b>${o.expansionPct}%</b></div>`;
+          <div>• Expansion: <b>${o.expansionPct}%</b></div>
+          <div>• Samples (n): <b>${o.n}</b></div>`;
         div.appendChild(box);
-        const c = document.createElement('div'); c.style.marginTop='6px';
-        c.appendChild(pill(\`Confidence: \${o.confidence} (n=\${o.n})\`,
-                     o.confidence==='strong'?'ok':o.confidence==='medium'?'warn':'err'));
+        const c=document.createElement('div');c.style.marginTop='6px';
+        c.appendChild(pill(`Confidence: ${o.confidence} (n=${o.n})`,
+                 o.confidence==='strong'?'ok':o.confidence==='medium'?'warn':'err'));
         div.appendChild(c);
       }
-      fill(pvFollowRows, f); fill(pvFlipRows, g);
+      fill(pvFollowRows,f); fill(pvFlipRows,g);
 
     } else {
-      const O = txtOR();
-      const rec = (data.London[A] && data.London[A][P] && data.London[A][P][O]) ? data.London[A][P][O] : null;
-      if(!rec){ details.textContent='Select OR action to see London stats.'; return; }
+      const O=txtOR();
+      const rec=(data.London[A]&&data.London[A][P]&&data.London[A][P][O])?data.London[A][P][O]:null;
+      if(!rec){details.textContent='Select OR action to see London stats.';return;}
 
-      badges.append(confidenceBadge(rec.confidence, rec.n));
+      badges.append(confidenceBadge(rec.confidence,rec.n));
 
-      const bias = (O==='Swept High') ? 'LONG' : (O==='Swept Low') ? 'SHORT' : 'Two-way';
-      kpis.append(kpi('Bias', bias));
-      kpis.append(kpi('Sweep same-side', `${rec.sweepSameSidePct}%`));
-      kpis.append(kpi('Median penetration', rec.medPen));
-      kpis.append(kpi('Median time', rec.medTime));
-      kpis.append(kpi('Expansion', `${rec.expansionPct}%`));
+      // London – rozszerzony pakiet KPI
+      const bias=(O==='Swept High')?'LONG':(O==='Swept Low')?'SHORT':'Two-way';
+      kpis.append(kpi('Bias',bias));
+      kpis.append(kpi('Sweep same-side',`${rec.sweepSameSidePct}%`));
+      kpis.append(kpi('Median penetration',rec.medPen));
+      kpis.append(kpi('Median time',rec.medTime));
+      kpis.append(kpi('Expansion',`${rec.expansionPct}%`));
+      kpis.append(kpi('Samples (n)',rec.n));
+      kpis.append(kpi('Confidence',rec.confidence.toUpperCase()));
 
-      const ul = document.createElement('ul'); ul.className='bullets';
-      ul.innerHTML = `
-        <li><b>Setup:</b> First London breach of the OR edge + <i>retest</i> → enter in same side.</li>
-        <li><b>Targets:</b> TP1 ≈ ½ median, TP2 ≈ 1× median, runner toward OR-range multiple.</li>
+      const ul=document.createElement('ul');ul.className='bullets';
+      ul.innerHTML=`
+        <li><b>Setup:</b> First London breach of the OR edge + <i>retest</i> → enter same side.</li>
         <li><b>Closes:</b> ${rec.closeAlign}</li>`;
       details.appendChild(ul);
 
-      // Schowaj preview przy London (tylko OR pokazuje dwa kafle)
       preview.style.display='none';
     }
   }
 
-  // Ustaw domyślne wartości, aby zawsze startować z „pełnym” widokiem (OR)
-  window.addEventListener('DOMContentLoaded', () => {
-    selWindow.selectedIndex = 0; // OR
-    selAsia.selectedIndex = 0;   // Below average
-    selPL.selectedIndex = 0;     // Swept Low
-    selOR.selectedIndex = 0;     // Swept High (używane tylko przy London)
+  // Start zawsze w OR + domyślne gałęzie
+  window.addEventListener('DOMContentLoaded',()=>{
+    selWindow.selectedIndex=0; // OR
+    selAsia.selectedIndex=0;   // Below
+    selPL.selectedIndex=0;     // Swept Low
+    selOR.selectedIndex=0;     // (na London)
     render();
   });
   </script>
