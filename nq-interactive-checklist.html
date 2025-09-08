@@ -50,18 +50,6 @@
     #app .kpi h3{font-size:12px; margin:0 0 6px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em}
     #app .kpi .v{font-size:18px; font-weight:800}
     #app .kpi .s{font-size:12px; color:var(--muted)}
-    #app .callout{
-      border:1px dashed var(--line); border-radius:12px; padding:12px; background:#0c0f14; margin-top:12px
-    }
-    #app .bullets{margin:8px 0 0 18px}
-    #app .bullets li{margin:6px 0}
-    #app .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
-    #app .tile{border:1px solid var(--line); border-radius:12px; padding:12px; background:#0c0f14}
-    #app .tile h4{margin:0 0 8px}
-    #app .pill{font-size:12px; padding:4px 8px; border-radius:999px; display:inline-block; margin-right:6px}
-    #app .ok{background:#07331a; color:#9ff0c2}
-    #app .warn{background:#3b2a04; color:#ffd89a}
-    #app .err{background:#3a0b12; color:#ffb3c1}
 
     /* Watermark – wyraźniejszy */
     .wm{
@@ -157,7 +145,7 @@
   </div>
 
   <!-- Watermark -->
-  <div class="wm">Herman Trading — Historical Backtest</div>
+  <div class="wm">Disclaimer: This is not financial advice.</div>
 
   <script>
   /* ========= DATA ========= */
@@ -306,8 +294,7 @@
     return d;
   }
   function confidenceBadge(level, n){
-    const w = document.createElement('span'); w.className='badge';
-    w.textContent = `Confidence: ${level} (n=${n})`;
+    const w = document.createElement('span'); w.className='badge'; w.textContent=`Confidence: ${level} (n=${n})`;
     w.style.background = level==='strong'?'#063314':level==='medium'?'#402a00':'#3c0b10';
     w.style.color = '#e6f7ee'; return w;
   }
@@ -352,10 +339,10 @@
       details.appendChild(ul);
 
       pvFollowRows.innerHTML = pvFlipRows.innerHTML = '';
-      $('#pvFollow').querySelector('h4').textContent = rec.preview.follow.title;
-      $('#pvFlip').querySelector('h4').textContent   = rec.preview.flip.title;
+      document.querySelector('#pvFollow h4').textContent = data.OR[A][P].preview.follow.title;
+      document.querySelector('#pvFlip h4').textContent   = data.OR[A][P].preview.flip.title;
 
-      const f = rec.preview.follow, g = rec.preview.flip;
+      const f = data.OR[A][P].preview.follow, g = data.OR[A][P].preview.flip;
       function fill(div, o){
         div.appendChild(pill(`Sweep same-side ${o.sweepSameSidePct}%`, 'ok'));
         div.appendChild(document.createElement('br'));
@@ -367,7 +354,7 @@
           <div>• Expansion: <b>${o.expansionPct}%</b></div>`;
         div.appendChild(box);
         const c = document.createElement('div'); c.style.marginTop='6px';
-        c.appendChild(pill(`Confidence: ${o.confidence} (n=${o.n})`,
+        c.appendChild(pill(\`Confidence: \${o.confidence} (n=\${o.n})\`,
                      o.confidence==='strong'?'ok':o.confidence==='medium'?'warn':'err'));
         div.appendChild(c);
       }
