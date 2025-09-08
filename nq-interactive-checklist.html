@@ -6,7 +6,7 @@
   <title>NQ Interactive Checklist - Herman Trading Hub</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* ====== PAGE SHELL (Twoje czarne tło + nawigacja) ====== */
+    /* ====== PAGE SHELL ====== */
     body{
       background:#000; color:#fff; font-family: monospace; text-align:center;
       margin:0; padding:0;
@@ -15,7 +15,7 @@
     nav a{ color:#fff; text-decoration:none; margin:0 10px; }
     nav a:hover{ text-decoration:underline; }
 
-    /* ====== APP (scoped, działa offline; dark theme) ====== */
+    /* ====== APP ====== */
     #app{
       --bg:#0b0b0b; --fg:#e5e7eb; --muted:#94a3b8; --soft:#0f1115; --line:#1f2430;
       --blue:#2563eb; --green:#16a34a; --amber:#d97706; --red:#dc2626;
@@ -63,23 +63,22 @@
     #app .ok{background:#07331a; color:#9ff0c2}
     #app .warn{background:#3b2a04; color:#ffd89a}
     #app .err{background:#3a0b12; color:#ffb3c1}
-    #app .btn{
-      display:inline-block; padding:12px 14px; background:var(--blue); color:#fff; border:none; border-radius:12px;
-      cursor:pointer; font-weight:800; width:100%; text-align:center
-    }
-    #app .btn.alt{background:#111}
-    #app .footer{color:var(--muted); font-size:12px; margin-top:10px}
 
-    /* Watermark */
+    /* Watermark – bardziej widoczny */
     .wm{
-      position:fixed; right:14px; bottom:12px; font-weight:800; letter-spacing:.06em;
-      opacity:.18; color:#fff; pointer-events:none; font-size:12px; text-transform:uppercase
+      position:fixed; right:16px; bottom:14px;
+      font-weight:900; letter-spacing:.08em; text-transform:uppercase;
+      opacity:.38; color:#fff; font-size:16px;
+      padding:6px 10px; border:1px solid rgba(255,255,255,.28); border-radius:10px;
+      background:linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      box-shadow:0 2px 10px rgba(0,0,0,.35);
+      pointer-events:none; user-select:none;
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER + NAV (jak na stronie głównej) -->
+  <!-- HEADER + NAV -->
   <img src="assets/logo.png" alt="Herman Trading Hub Logo" style="max-width:200px; margin-top:30px;">
   <h1>HERMAN TRADING HUB</h1>
   <nav>
@@ -91,10 +90,10 @@
     <a href="contact.html">Contact</a>
   </nav>
 
-  <!-- ====== INTERACTIVE CHECKLIST (single-file, offline) ====== -->
+  <!-- ====== INTERACTIVE CHECKLIST ====== -->
   <div id="app">
     <h1>NQ Euro Sessions — Interactive Checklist</h1>
-    <div class="sub">Offline single-file. Windows: <b>OR 02:00–03:00</b> &amp; <b>London 03:00–05:00</b>. Data: 719 days (Jan’22–Aug’25).</div>
+    <div class="sub">Windows: <b>OR 02:00–03:00</b> &amp; <b>London 03:00–05:00</b>. Data: 719 days (Jan’22–Aug’25).</div>
 
     <!-- CONTROLS -->
     <div class="panel">
@@ -156,24 +155,13 @@
         <div id="pvFlipRows"></div>
       </div>
     </div>
-
-    <!-- DOWNLOAD -->
-    <div class="row" style="margin-top:12px">
-      <div class="col-6"><button class="btn" id="btnDL">Download this HTML</button></div>
-      <div class="col-6"><button class="btn alt" id="btnData">Download Data (JSON)</button></div>
-    </div>
-    <div class="footer">Works offline · Dark theme · Brave/Safari/Chrome/Firefox friendly</div>
   </div>
 
   <!-- Watermark -->
   <div class="wm">Herman Trading — Historical Backtest</div>
 
   <script>
-  /* ========= DATA (condensed; offline) =========
-     Struktura:
-     data.OR[asia][pl] -> {..., preview:{follow:{...}, flip:{...}}}
-     data.London[asia][pl][orSide] -> {...}
-  */
+  /* ========= DATA ========= */
   const data = {
     OR: {
       "Below": {
@@ -224,7 +212,7 @@
           }
         },
         "Swept High": {
-          bias: "SHORT", primaryLabel: "Flip", primaryPct: 48.8, oppositeLabel: "Follow", oppositePct: 32.8,
+          bias: "SHORT", primaryLabel: "Flip", primaryPct: 48.8, oppositeLabel: 32.8,
           bothPct: 8.8, nonePct: 9.6, sweepAnyPct: 90.4,
           medPen: "20–22 pts (flip) · 14–16 (follow)", medTime: "6–14 min", n: 125, confidence: "strong",
           preview: {
@@ -379,7 +367,7 @@
           <div>• Expansion: <b>${o.expansionPct}%</b></div>`;
         div.appendChild(box);
         const c = document.createElement('div'); c.style.marginTop='6px';
-        c.appendChild(pill(`Confidence: ${o.confidence} (n=${o.n})`,
+        c.appendChild(pill(\`Confidence: \${o.confidence} (n=\${o.n})\`,
                      o.confidence==='strong'?'ok':o.confidence==='medium'?'warn':'err'));
         div.appendChild(c);
       }
@@ -414,23 +402,6 @@
   selPL.addEventListener('change', render);
   selOR.addEventListener('change', render);
   render();
-
-  /* ========= DOWNLOADS ========= */
-  function download(filename, content, type='text/html'){
-    const blob = new Blob([content], {type});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    document.body.appendChild(a); a.click();
-    setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 0);
-  }
-  document.getElementById('btnDL').addEventListener('click', ()=>{
-    const html = '<!DOCTYPE html>\n'+document.documentElement.outerHTML;
-    download('nq_euro_sessions_checklist.html', html, 'text/html');
-  });
-  document.getElementById('btnData').addEventListener('click', ()=>{
-    download('nq_euro_sessions_data.json', JSON.stringify(data, null, 2), 'application/json');
-  });
   </script>
 </body>
 </html>
