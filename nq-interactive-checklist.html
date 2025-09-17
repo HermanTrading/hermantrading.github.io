@@ -10,7 +10,6 @@
     nav{margin-top:20px}
     nav a{color:#fff;text-decoration:none;margin:0 10px}
     nav a:hover{text-decoration:underline}
-
     /* App */
     #app{
       --fg:#e5e7eb;--muted:#94a3b8;--soft:#0f1115;--line:#1f2430;
@@ -45,7 +44,6 @@
     #app .ok{background:#07331a;color:#9ff0c2}
     #app .warn{background:#3b2a04;color:#ffd89a}
     #app .err{background:#3a0b12;color:#ffb3c1}
-
     /* Watermark (disclaimer) */
     .wm{
       position:fixed;right:16px;bottom:14px;z-index:10;
@@ -189,11 +187,11 @@
           }
         },
         "Swept High": {
-          bias: "SHORT", primaryLabel: "Flip", primaryPct: 48.8, oppositeLabel: 32.8,
+          bias: "SHORT", primaryLabel: "Flip", primaryPct: 48.8, oppositeLabel: "Follow", oppositePct: 32.8,
           bothPct: 8.8, nonePct: 9.6, sweepAnyPct: 90.4,
           medPen: "20–22 pts (flip) · 14–16 (follow)", medTime: "6–14 min", n: 125, confidence: "strong",
           preview: {
-            follow:{ title:"If OR Follows (OR High)", sweepSameSidePct:60.98, closeAlign:"Bull close ≈ 73.3%",
+            follow:{ title:"If OR Follows (OR High)", sweepSameSidePct:61.0, closeAlign:"Bull close ≈ 73.3%",
                      medPen:"+24.9 pts", medTime:"≈ 12 min", expansionPct:95.1, n:41, confidence:"medium" },
             flip:{   title:"If OR Flips (OR Low)",   sweepSameSidePct:72.1, closeAlign:"Bear close ≈ 63.6%",
                      medPen:"−38.7 pts", medTime:"≈ 5.5 min", expansionPct:93.4, n:61, confidence:"strong" }
@@ -277,6 +275,16 @@
     w.style.background=level==='strong'?'#063314':level==='medium'?'#402a00':'#3c0b10';w.style.color='#e6f7ee';return w;
   }
 
+  function dynamicFollowFlipTitles(plAction, fallbackFollow, fallbackFlip){
+    if(plAction==='Swept High'){
+      return ['If OR Follows (OR High)','If OR Flips (OR Low)'];
+    } else if(plAction==='Swept Low'){
+      return ['If OR Follows (OR Low)','If OR Flips (OR High)'];
+    }
+    // No sweep → use provided titles ("OR sets High/Low")
+    return [fallbackFollow, fallbackFlip];
+  }
+
   function render(){
     const W=txtWindow(), A=txtAsia(), P=txtPL();
     rowORAction.style.display=(W==='London')?'block':'none';
@@ -295,7 +303,7 @@
 
       badges.append(confidenceBadge(rec.confidence,rec.n));
 
-      // Pełny pakiet KPI
+      // KPIs
       kpis.append(kpi('Bias',rec.bias));
       kpis.append(kpi('Primary %',`${rec.primaryLabel} ${rec.primaryPct.toFixed(1)}%`));
       kpis.append(kpi('Opposite %',`${rec.oppositeLabel} ${rec.oppositePct.toFixed(1)}%`));
@@ -310,19 +318,20 @@
       kpis.append(kpi('Samples (n)',rec.n));
       kpis.append(kpi('Confidence',rec.confidence.toUpperCase()));
 
-      // Opis
+      // Notes
       const ul=document.createElement('ul');ul.className='bullets';
       ul.innerHTML=`
         <li><b>Plan:</b> First breach + clean retest of the OR edge in the primary direction.</li>
         <li><b>Targets:</b> Use medians; scale quicker if <i>Both</i> or high risk index.</li>`;
       details.appendChild(ul);
 
-      // Preview tiles
+      // Preview tiles (London if OR follows/ flips)
       pvFollowRows.innerHTML=pvFlipRows.innerHTML='';
-      document.querySelector('#pvFollow h4').textContent=rec.preview.follow.title;
-      document.querySelector('#pvFlip h4').textContent=rec.preview.flip.title;
-
       const f=rec.preview.follow, g=rec.preview.flip;
+      const [followTitle, flipTitle]=dynamicFollowFlipTitles(P, f.title, g.title);
+      document.querySelector('#pvFollow h4').textContent=followTitle;
+      document.querySelector('#pvFlip h4').textContent=flipTitle;
+
       function fill(div,o){
         div.appendChild(pill(`Sweep same-side ${o.sweepSameSidePct}%`,'ok'));
         div.appendChild(document.createElement('br'));
@@ -335,7 +344,7 @@
           <div>• Samples (n): <b>${o.n}</b></div>`;
         div.appendChild(box);
         const c=document.createElement('div');c.style.marginTop='6px';
-        c.appendChild(pill(`Confidence: ${o.confidence} (n=${o.n})`,
+        c.appendChild(pill(\`Confidence: \${o.confidence} (n=\${o.n})\`,
                  o.confidence==='strong'?'ok':o.confidence==='medium'?'warn':'err'));
         div.appendChild(c);
       }
@@ -367,20 +376,16 @@
     }
   }
 
-  // START + LISTENERY (kluczowe, żeby UI reagował na wybory)
+  // START + LISTENERS
   window.addEventListener('DOMContentLoaded',()=>{
-    // domyślne wartości (pełny widok OR)
     selWindow.selectedIndex=0; // OR
     selAsia.selectedIndex=0;   // Below
     selPL.selectedIndex=0;     // Swept Low
-    selOR.selectedIndex=0;     // (dla London)
-
-    // >>> Przywrócone nasłuchy zmian <<<
+    selOR.selectedIndex=0;     // for London view
     selWindow.addEventListener('change', render);
     selAsia.addEventListener('change', render);
     selPL.addEventListener('change', render);
     selOR.addEventListener('change', render);
-
     render();
   });
   </script>
