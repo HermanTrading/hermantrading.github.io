@@ -281,8 +281,7 @@
     } else if(plAction==='Swept Low'){
       return ['If OR Follows (OR Low)','If OR Flips (OR High)'];
     }
-    // No sweep → use provided titles ("OR sets High/Low")
-    return [fallbackFollow, fallbackFlip];
+    return [fallbackFollow, fallbackFlip]; // No-sweep
   }
 
   function render(){
@@ -325,7 +324,7 @@
         <li><b>Targets:</b> Use medians; scale quicker if <i>Both</i> or high risk index.</li>`;
       details.appendChild(ul);
 
-      // Preview tiles (London if OR follows/ flips)
+      // Preview tiles
       pvFollowRows.innerHTML=pvFlipRows.innerHTML='';
       const f=rec.preview.follow, g=rec.preview.flip;
       const [followTitle, flipTitle]=dynamicFollowFlipTitles(P, f.title, g.title);
@@ -344,7 +343,7 @@
           <div>• Samples (n): <b>${o.n}</b></div>`;
         div.appendChild(box);
         const c=document.createElement('div');c.style.marginTop='6px';
-        c.appendChild(pill(\`Confidence: \${o.confidence} (n=\${o.n})\`,
+        c.appendChild(pill(`Confidence: ${o.confidence} (n=${o.n})`,
                  o.confidence==='strong'?'ok':o.confidence==='medium'?'warn':'err'));
         div.appendChild(c);
       }
