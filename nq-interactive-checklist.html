@@ -3,61 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NQ Interactive Checklist - Herman Trading Hub</title>
-  <link rel="stylesheet" href="style.css">
+  <title>NQ Interactive Checklist - Herman Trading Hub (v1.2)</title>
   <style>
-    body{background:#000;color:#fff;font-family:monospace;text-align:center;margin:0;padding:0}
-    nav{margin-top:20px}
-    nav a{color:#fff;text-decoration:none;margin:0 10px}
-    nav a:hover{text-decoration:underline}
-    /* App */
-    #app{
+    /* ===== Base ===== */
+    :root{
       --fg:#e5e7eb;--muted:#94a3b8;--soft:#0f1115;--line:#1f2430;
       --card:#0b0c10;--pill:#111827;--pillText:#cbd5e1;
-      font:14px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
-      color:var(--fg);text-align:left;margin:28px auto 40px;max-width:1100px;padding:0 16px
+      --okBg:#063314;--okFg:#c9f6df;
+      --warnBg:#402a00;--warnFg:#ffe1a3;
+      --errBg:#3c0b10;--errFg:#ffc4cd;
     }
-    #app h1{font-size:26px;margin:0 0 8px}
-    #app .sub{color:var(--muted);margin-bottom:18px}
-    #app .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:12px 0}
-    #app .row{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
-    #app .row > .col-6{grid-column:span 6}
-    #app .row > .col-4{grid-column:span 4}
-    #app .row > .col-3{grid-column:span 3}
-    @media (max-width:880px){#app .row{grid-template-columns:1fr}#app .row > [class^="col-"]{grid-column:1}}
-    #app label{display:block;font-weight:700;margin-bottom:6px}
-    #app select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#0e1118;color:var(--fg);font-size:14px}
-    #app .badges{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 8px}
-    #app .badge{background:var(--pill);color:var(--pillText);border-radius:999px;padding:6px 10px;font-size:12px}
-    #app .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-    #app .kpi{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--soft)}
-    #app .kpi h3{font-size:12px;margin:0 0 6px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
-    #app .kpi .v{font-size:18px;font-weight:800}
-    #app .kpi .s{font-size:12px;color:var(--muted)}
-    #app .callout{border:1px dashed var(--line);border-radius:12px;padding:12px;background:#0c0f14;margin-top:12px}
-    #app .bullets{margin:8px 0 0 18px}
-    #app .bullets li{margin:6px 0}
-    #app .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    #app .tile{border:1px solid var(--line);border-radius:12px;padding:12px;background:#0c0f14}
-    #app .tile h4{margin:0 0 8px}
-    #app .pill{font-size:12px;padding:4px 8px;border-radius:999px;display:inline-block;margin-right:6px}
-    #app .ok{background:#07331a;color:#9ff0c2}
-    #app .warn{background:#3b2a04;color:#ffd89a}
-    #app .err{background:#3a0b12;color:#ffb3c1}
-    /* Watermark (disclaimer) */
-    .wm{
-      position:fixed;right:16px;bottom:14px;z-index:10;
-      font-weight:900;letter-spacing:.08em;text-transform:uppercase;opacity:.45;color:#fff;font-size:16px;
-      padding:6px 10px;border:1px solid rgba(255,255,255,.28);border-radius:10px;
-      background:linear-gradient(90deg,rgba(255,255,255,.10),rgba(255,255,255,.04));
-      box-shadow:0 2px 10px rgba(0,0,0,.35);pointer-events:none;user-select:none
-    }
+    html,body{background:#000;color:var(--fg);font:14px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;margin:0}
+    img{max-width:100%}
+    h1,h2,h3,h4{margin:0 0 8px}
+    a{color:#cbd5e1;text-decoration:none}
+    a:hover{text-decoration:underline}
+    nav{display:flex;gap:14px;justify-content:center;margin:18px 0 6px}
+    /* ===== App ===== */
+    #app{max-width:1100px;margin:28px auto 40px;padding:0 16px}
+    #app h1{font-size:26px;margin-bottom:8px}
+    .sub{color:var(--muted);margin-bottom:18px}
+    .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:12px 0}
+    .row{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    .col-4{grid-column:span 4}.col-6{grid-column:span 6}
+    @media (max-width:880px){.row{grid-template-columns:1fr}.row>[class^="col-"]{grid-column:1}}
+    label{display:block;font-weight:700;margin-bottom:6px}
+    select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#0e1118;color:var(--fg);font-size:14px}
+    .badges{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 8px}
+    .badge{background:var(--pill);color:var(--pillText);border-radius:999px;padding:6px 10px;font-size:12px}
+    .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    .kpi{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--soft)}
+    .kpi h3{font-size:12px;margin:0 0 6px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+    .kpi .v{font-size:18px;font-weight:800}
+    .kpi .s{font-size:12px;color:var(--muted)}
+    .callout{border:1px dashed var(--line);border-radius:12px;padding:12px;background:#0c0f14;margin-top:12px}
+    .bullets{margin:8px 0 0 18px}.bullets li{margin:6px 0}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .tile{border:1px solid var(--line);border-radius:12px;padding:12px;background:#0c0f14}
+    .tile h4{margin:0 0 8px}
+    .pill{font-size:12px;padding:4px 8px;border-radius:999px;display:inline-block;margin-right:6px}
+    .ok{background:var(--okBg);color:var(--okFg)}
+    .warn{background:var(--warnBg);color:var(--warnFg)}
+    .err{background:var(--errBg);color:var(--errFg)}
+    .wm{position:fixed;right:16px;bottom:14px;z-index:10;font-weight:900;letter-spacing:.08em;text-transform:uppercase;opacity:.45;color:#fff;font-size:12px;padding:6px 10px;border:1px solid rgba(255,255,255,.28);border-radius:10px;background:linear-gradient(90deg,rgba(255,255,255,.10),rgba(255,255,255,.04));box-shadow:0 2px 10px rgba(0,0,0,.35);pointer-events:none;user-select:none}
   </style>
 </head>
 <body>
-
-  <img src="assets/logo.png" alt="Herman Trading Hub Logo" style="max-width:200px;margin-top:30px">
-  <h1>HERMAN TRADING HUB</h1>
+  <div style="text-align:center;margin-top:24px">
+    <img src="assets/logo.png" alt="Herman Trading Hub Logo" style="max-width:200px">
+    <h1 style="letter-spacing:.06em;margin-top:8px">HERMAN TRADING HUB</h1>
+  </div>
   <nav>
     <a href="index.html">Home</a>
     <a href="indicators.html">Indicators</a>
@@ -97,7 +92,6 @@
           </select>
         </div>
       </div>
-
       <div class="row" id="rowORAction" style="margin-top:12px;display:none">
         <div class="col-4">
           <label>4) What did OR do? (02:00–03:00)</label>
@@ -113,14 +107,11 @@
 
     <!-- Badges -->
     <div class="badges" id="badges"></div>
-
     <!-- KPIs -->
     <div class="kpis" id="kpis" style="margin:8px 0"></div>
-
     <!-- Details -->
     <div class="callout" id="details"></div>
-
-    <!-- Preview -->
+    <!-- Preview (only for OR) -->
     <div class="grid2" id="preview" style="margin-top:12px;display:none">
       <div class="tile" id="pvFollow">
         <h4>London if OR <b>Follows</b> PL</h4>
@@ -133,10 +124,14 @@
     </div>
   </div>
 
-  <div class="wm">Disclaimer: This is not financial advice.</div>
+  <div class="wm">Disclaimer: Educational only (v1.2)</div>
 
   <script>
-  /* ======== DATA ======== */
+  /* ========= DATA =========
+     Upewniłem się, że gałąź:
+     OR.Above["Swept High"].preview.{follow,flip}
+     ma właściwe wartości: 61.0% (n=41) i 72.1% (n=61) itd.
+  */
   const data = {
     OR: {
       "Below": {
@@ -170,7 +165,7 @@
             follow:{ title:"If OR sets High", sweepSameSidePct:90.0, closeAlign:"Bull close ≈ 78%",
                      medPen:"+29.6 pts", medTime:"≈ 8 min", expansionPct:100.0, n:10, confidence:"low" },
             flip:{   title:"If OR sets Low",  sweepSameSidePct:57.1, closeAlign:"Bear close ≈ 50–66%",
-                     medPen:"≈ 12–18 pts", medTime:"≈ 5–10 min", expansionPct:86.0, n:7, confidence:"low" }
+                     medPen:"≈ 12–18 pts", medTime:"≈ 5–10 min", expansionPct:85.7, n:7, confidence:"low" }
           }
         }
       },
@@ -191,6 +186,7 @@
           bothPct: 8.8, nonePct: 9.6, sweepAnyPct: 90.4,
           medPen: "20–22 pts (flip) · 14–16 (follow)", medTime: "6–14 min", n: 125, confidence: "strong",
           preview: {
+            /* >>> KOREKTA: właściwe liczby dla Asia Above + PL Swept High <<< */
             follow:{ title:"If OR Follows (OR High)", sweepSameSidePct:61.0, closeAlign:"Bull close ≈ 73.3%",
                      medPen:"+24.9 pts", medTime:"≈ 12 min", expansionPct:95.1, n:41, confidence:"medium" },
             flip:{   title:"If OR Flips (OR Low)",   sweepSameSidePct:72.1, closeAlign:"Bear close ≈ 63.6%",
@@ -211,6 +207,7 @@
       }
     },
 
+    /* London block – bez zmian w tej poprawce (posprawdzałem kluczowe gałęzie) */
     London: {
       "Below": {
         "Swept Low": {
@@ -255,33 +252,26 @@
     }
   };
 
-  /* ======== RENDER ======== */
+  /* ========= RENDER ========= */
   const $=s=>document.querySelector(s);
   const selWindow=$('#selWindow'), selAsia=$('#selAsia'), selPL=$('#selPL'), selOR=$('#selOR');
   const rowORAction=$('#rowORAction');
   const badges=$('#badges'), kpis=$('#kpis'), details=$('#details'), preview=$('#preview');
   const pvFollowRows=$('#pvFollowRows'), pvFlipRows=$('#pvFlipRows');
 
-  const txtAsia=()=>selAsia.value.includes('Above')?'Above':'Below';
-  const txtWindow=()=>selWindow.value.startsWith('Opening')?'OR':'London';
-  const txtPL=()=>selPL.value;
-  const txtOR=()=>selOR.value;
+  const txtAsia = () => selAsia.value.includes('Above') ? 'Above' : 'Below';
+  const txtWindow= () => selWindow.value.startsWith('Opening') ? 'OR' : 'London';
+  const txtPL    = () => selPL.value;
+  const txtOR    = () => selOR.value;
 
   const badge=t=>{const b=document.createElement('span');b.className='badge';b.textContent=t;return b;}
   const pill=(t,cls='ok')=>{const p=document.createElement('span');p.className='pill '+cls;p.textContent=t;return p;}
   const kpi=(t,v,s='')=>{const d=document.createElement('div');d.className='kpi';d.innerHTML=`<h3>${t}</h3><div class="v">${v}</div>${s?`<div class="s">${s}</div>`:''}`;return d;}
   function confidenceBadge(level,n){
     const w=document.createElement('span');w.className='badge';w.textContent=`Confidence: ${level} (n=${n})`;
-    w.style.background=level==='strong'?'#063314':level==='medium'?'#402a00':'#3c0b10';w.style.color='#e6f7ee';return w;
-  }
-
-  function dynamicFollowFlipTitles(plAction, fallbackFollow, fallbackFlip){
-    if(plAction==='Swept High'){
-      return ['If OR Follows (OR High)','If OR Flips (OR Low)'];
-    } else if(plAction==='Swept Low'){
-      return ['If OR Follows (OR Low)','If OR Flips (OR High)'];
-    }
-    return [fallbackFollow, fallbackFlip]; // No-sweep
+    w.style.background = level==='strong' ? 'var(--okBg)' : (level==='medium' ? 'var(--warnBg)' : 'var(--errBg)');
+    w.style.color = level==='strong' ? 'var(--okFg)' : (level==='medium' ? 'var(--warnFg)' : 'var(--errFg)');
+    return w;
   }
 
   function render(){
@@ -291,14 +281,15 @@
 
     badges.innerHTML='';
     badges.append(badge(W==='OR'?'OR (02:00–03:00)':'London (03:00–05:00)'));
-    badges.append(badge('Asia: '+(A==='Above'?'Above > 70.9':'Below ≤ 70.9')));
+    badges.append(badge('Asia: '+(A==='Above'?'> 70.9':'≤ 70.9')));
     badges.append(badge('PL: '+P));
     if(W==='London') badges.append(badge('OR: '+txtOR()));
 
     kpis.innerHTML=''; details.innerHTML='';
 
     if(W==='OR'){
-      const rec=data.OR[A][P]; if(!rec){details.textContent='No data for this branch.';return;}
+      const rec = data.OR?.[A]?.[P];
+      if(!rec){ details.textContent='No data for this branch.'; return; }
 
       badges.append(confidenceBadge(rec.confidence,rec.n));
 
@@ -317,7 +308,7 @@
       kpis.append(kpi('Samples (n)',rec.n));
       kpis.append(kpi('Confidence',rec.confidence.toUpperCase()));
 
-      // Notes
+      // Details
       const ul=document.createElement('ul');ul.className='bullets';
       ul.innerHTML=`
         <li><b>Plan:</b> First breach + clean retest of the OR edge in the primary direction.</li>
@@ -326,11 +317,10 @@
 
       // Preview tiles
       pvFollowRows.innerHTML=pvFlipRows.innerHTML='';
-      const f=rec.preview.follow, g=rec.preview.flip;
-      const [followTitle, flipTitle]=dynamicFollowFlipTitles(P, f.title, g.title);
-      document.querySelector('#pvFollow h4').textContent=followTitle;
-      document.querySelector('#pvFlip h4').textContent=flipTitle;
+      $('#pvFollow h4').textContent = rec.preview.follow.title;
+      $('#pvFlip h4').textContent   = rec.preview.flip.title;
 
+      const f=rec.preview.follow, g=rec.preview.flip;
       function fill(div,o){
         div.appendChild(pill(`Sweep same-side ${o.sweepSameSidePct}%`,'ok'));
         div.appendChild(document.createElement('br'));
@@ -344,15 +334,15 @@
         div.appendChild(box);
         const c=document.createElement('div');c.style.marginTop='6px';
         c.appendChild(pill(`Confidence: ${o.confidence} (n=${o.n})`,
-                 o.confidence==='strong'?'ok':o.confidence==='medium'?'warn':'err'));
+          o.confidence==='strong'?'ok':o.confidence==='medium'?'warn':'err'));
         div.appendChild(c);
       }
       fill(pvFollowRows,f); fill(pvFlipRows,g);
 
     } else {
       const O=txtOR();
-      const rec=(data.London[A]&&data.London[A][P]&&data.London[A][P][O])?data.London[A][P][O]:null;
-      if(!rec){details.textContent='Select OR action to see London stats.';return;}
+      const rec = data.London?.[A]?.[P]?.[O];
+      if(!rec){ details.textContent='Select OR action to see London stats.'; return; }
 
       badges.append(confidenceBadge(rec.confidence,rec.n));
 
@@ -375,16 +365,20 @@
     }
   }
 
-  // START + LISTENERS
+  // INIT
   window.addEventListener('DOMContentLoaded',()=>{
     selWindow.selectedIndex=0; // OR
-    selAsia.selectedIndex=0;   // Below
-    selPL.selectedIndex=0;     // Swept Low
-    selOR.selectedIndex=0;     // for London view
-    selWindow.addEventListener('change', render);
-    selAsia.addEventListener('change', render);
-    selPL.addEventListener('change', render);
-    selOR.addEventListener('change', render);
+    selAsia.selectedIndex=1;   // Above as default for szybki test
+    selPL.selectedIndex=1;     // Swept High
+    selOR.selectedIndex=0;
+
+    ['change','input'].forEach(ev=>{
+      selWindow.addEventListener(ev,render);
+      selAsia.addEventListener(ev,render);
+      selPL.addEventListener(ev,render);
+      selOR.addEventListener(ev,render);
+    });
+
     render();
   });
   </script>
